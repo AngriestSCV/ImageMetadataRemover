@@ -8,9 +8,11 @@ args = ["pyinstaller", "--onefile" , "src/main.py",
         "--icon", "icon.png"]
 subprocess.run(args)
 
-try:
-    os.remove("dist/ImageMetadataRemover.exe")
-except FileNotFoundError: 
-    pass
-os.rename("dist/main.exe", "dist/ImageMetadataRemover.exe")
+import src.main as mm
+
+version = mm.version
+
+vstring = f"{version[0]}.{version[1]}.{version[2]}"
+
+os.rename("dist/main.exe", f"dist/ImageMetadataRemover.{vstring}.exe")
 

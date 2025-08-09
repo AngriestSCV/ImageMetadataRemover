@@ -6,6 +6,8 @@ import argparse
 import traceback
 import sys
 
+version = (1, 0, 0)
+
 def strip(image):
     channels = []
 
@@ -23,6 +25,8 @@ def main():
     parser.add_argument("--no-overwrite")
 
     args = parser.parse_args()
+
+    print(f"Version {version[0]}.{version[1]}.{version[2]}")
 
     for img_path in args.image_path:
         output_path = img_path
