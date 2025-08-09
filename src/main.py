@@ -1,3 +1,5 @@
+#!python
+
 from PIL import Image
 
 import argparse 
@@ -17,7 +19,7 @@ def strip(image):
 def main():
 
     parser = argparse.ArgumentParser(description="Remove metadata from a PNG image.")
-    parser.add_argument("image_path", action="append", help="Path to the PNG image")
+    parser.add_argument("image_path", nargs="*", help="Path to the PNG image")
     parser.add_argument("--no-overwrite")
 
     args = parser.parse_args()
@@ -25,9 +27,9 @@ def main():
     for img_path in args.image_path:
         output_path = img_path
         if args.no_overwrite:
-            output_path = output_path.replace(".png", "_no_metadata.png")
+            output_path = output_path+"_no_metadata.png"
 
-        withMetadata = Image.open(args.image_path)
+        withMetadata = Image.open(img_path)
         noMetadata = strip(withMetadata)
         noMetadata.save(output_path)
         print("Stripped metadata from ", img_path)
@@ -37,10 +39,12 @@ def main():
 if __name__ == "__main__":
     try:
         main()
+        code = 0
     except Exception as e:
         print("There was a catastropic error. Please report this to the maintainer of this tool")
         print(e)
         print(traceback.format_exc())
+        code = 1
 
-        if(sys.stdout.isatty()):
-            input("Press enter to exit")
+    input("Press enter to exit")
+    sys.exit(code)
